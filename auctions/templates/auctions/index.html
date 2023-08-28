@@ -6,16 +6,19 @@
         <div>{{ message }}</div>
     {% endif %}
     <ul>
-        {% for listing in listings %}
-            <a href="{% url 'listing' id=listing.id %}">
+        {% for listing_set in listings %}
+            <a href="{% url 'listing' id=listing_set.listing.id %}">
                 <h2>
-                    {{ listing.title }}
+                    {{ listing_set.listing.title }}
                 </h2>
-                {% if listing.image %}
-                    <img src="{{ listing.image.url }}" alt="{{ listing.title }}">
+                {% if listing_set.listing.image %}
+                    <img src="{{ listing_set.listing.image.url }}" alt="{{ listing_set.listing.title }}">
                 {% endif %}
                 <div>
-                    {{ listing.description }}
+                    {{ listing_set.listing.description }}
+                </div>
+                <div>
+                    current price: ${{ listing_set.highest_bid }}
                 </div>
             </a>
         {% endfor %}

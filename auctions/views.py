@@ -5,7 +5,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django import forms
-from .models import User, AuctionListing
+from .models import User, AuctionListing, Bid, Comment
+from django.db.models import OuterRef, Subquery
+from django.db.models.functions import Coalesce
 
 class ListingForm(forms.Form):
     title = forms.CharField(max_length=64)
@@ -16,12 +18,24 @@ class ListingForm(forms.Form):
 
 @login_required
 def index(request):
+
     listings = request.user.listings.all()
-    for listing in listings:
-        if listing.image:
-            print(listing.image)
+    new_listings = []
+    for i in range(len(listings)):
+        listing = listings[i]
+        bid_num = listing.bids.count()
+        if bid_num == 0:
+            highest_bid = listing.starting_bid
+        else:
+            highest_bid = listing.bids.order_by("-price").first().price
+
+        new_listings.append({
+            "listing": listing,
+            "highest_bid": highest_bid
+        })
+    print(new_listings)
     return render(request, "auctions/index.html", {
-        "listings": listings
+        "listings": new_listings
     })
 
 
