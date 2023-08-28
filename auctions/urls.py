@@ -11,3 +11,5 @@ urlpatterns = [
     path("create", views.create, name="create"),
     path("listing/<str:id>", views.listing, name="listing")
 ]
+
+urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -104,12 +104,19 @@ def create(request):
     
 
 def listing(request, id):
-    listing = AuctionListing.objects.get(id=id)
-    if listing:  
+    if AuctionListing.objects.filter(id=id).exists():  
+        listing = AuctionListing.objects.get(id=id)
+        owner = listing.owner
+        bid_num =  listing.bids.count()
+        if bid_num > 0:
+            highest_bid = listing.bids.order_by("-price").first().price
+        else:
+            highest_bid = listing.starting_bid
         return render(request, "auctions/listing.html", {
-            "listing": listing
+            "listing": listing,
+            "highest_bid": highest_bid,
+            "bid_num": bid_num,
+            "owner": owner
         })
-    return HttpResponseRedirect(reverse("index"), kwargs={
-        "message": "The page does not exist"
-    })
+    return HttpResponseRedirect(reverse("index"))
         

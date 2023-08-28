@@ -5,18 +5,30 @@
 {% block body %}
     <!-- title -->
     <div>{{ listing.title }}</div>
+
     <!-- image -->
     {% if listing.image %}
     <img src="{{ MEDIA_URL }}{{ listing.image.url }}" alt="{{listing.title}}">
     {% endif %}
+
     <!-- description -->
+    <div>
+        {{ listing.description }}
+    </div>
 
     <!-- current bid -->
-
+    <div>
+        Highest bid: ${{ highest_bid }}
+    </div>
+    
     <!-- number of bid -->
-
+    <div>
+        {{ bid_num}} bid(s) so far.
+    </div>
     <!-- author -->
-
+    <div>
+        Listed by {{ owner.username }}
+    </div>
     <!-- category -->
 
     <!-- various part -->
