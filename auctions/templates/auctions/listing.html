@@ -1,0 +1,37 @@
+{% extends 'auctions/layout.html' %}
+
+{% block title %}listing.title{% endblock %}
+
+{% block body %}
+    <!-- title -->
+    <div>{{ listing.title }}</div>
+    <!-- image -->
+    {% if listing.image %}
+    <img src="{{ MEDIA_URL }}{{ listing.image.url }}" alt="{{listing.title}}">
+    {% endif %}
+    <!-- description -->
+
+    <!-- current bid -->
+
+    <!-- number of bid -->
+
+    <!-- author -->
+
+    <!-- category -->
+
+    <!-- various part -->
+    <!-- if signed in -->
+        <!-- if owner -->
+            <!-- if not close -->
+                <!-- close -->
+        <!-- else -->
+            <!-- if not close -->
+                <!-- add/remove to watchlist -->
+                <!-- bid -->
+            <!-- if close and winner -->
+                <!-- display winner -->
+    <!-- if close -->
+    <!-- comments -->
+
+    
+{% endblock %}

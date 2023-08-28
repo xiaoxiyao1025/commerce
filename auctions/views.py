@@ -13,8 +13,16 @@ class ListingForm(forms.Form):
     image = forms.ImageField(required=False)
     starting_bid = forms.DecimalField(decimal_places=2, max_digits=5)
 
+
+@login_required
 def index(request):
-    return render(request, "auctions/index.html")
+    listings = request.user.listings.all()
+    for listing in listings:
+        if listing.image:
+            print(listing.image)
+    return render(request, "auctions/index.html", {
+        "listings": listings
+    })
 
 
 def login_view(request):
@@ -89,9 +97,19 @@ def create(request):
                                           description=description,
                                           image=image,
                                           starting_bid=starting_bid)
-            # listing.save()
+            listing.save()
         return render(request, "auctions/create.html", {
             "form": ListingForm()
         })
-            
-            
+    
+
+def listing(request, id):
+    listing = AuctionListing.objects.get(id=id)
+    if listing:  
+        return render(request, "auctions/listing.html", {
+            "listing": listing
+        })
+    return HttpResponseRedirect(reverse("index"), kwargs={
+        "message": "The page does not exist"
+    })
+        
