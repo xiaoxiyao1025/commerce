@@ -5,15 +5,19 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django import forms
-from .models import User, AuctionListing, Bid, Comment
-from django.db.models import OuterRef, Subquery
-from django.db.models.functions import Coalesce
+from .models import User, AuctionListing, Bid, Comment, Catagory
 
 class ListingForm(forms.Form):
+    catagory = Catagory.objects.exclude(name="Other").values('name', 'id')
+    catagory_list = []
+    for i in range(len(catagory)):
+        catagory_list.append((catagory[i]['id'], catagory[i]['name']))
+    catagory_list.append((Catagory.objects.get(name="Other").id, "Other"))
     title = forms.CharField(max_length=64)
     description = forms.CharField(max_length=500, widget=forms.Textarea)
     image = forms.ImageField(required=False)
     starting_bid = forms.DecimalField(decimal_places=2, max_digits=5)
+    catagories = forms.MultipleChoiceField(choices=catagory_list)
 
 
 @login_required
@@ -33,7 +37,6 @@ def index(request):
             "listing": listing,
             "highest_bid": highest_bid
         })
-    print(new_listings)
     return render(request, "auctions/index.html", {
         "listings": new_listings
     })
@@ -94,13 +97,11 @@ def register(request):
 @login_required
 def create(request):
     if request.method == "GET":
-        l = ListingForm()
-        print(l)
         return render(request, "auctions/create.html", {
             "form": ListingForm()
         })
     if request.method == "POST":
-        form = ListingForm(request.POST)
+        form = ListingForm(request.POST, request.FILES)
         if form.is_valid():
             title = form.cleaned_data['title']
             description = form.cleaned_data['description']
@@ -112,6 +113,12 @@ def create(request):
                                           image=image,
                                           starting_bid=starting_bid)
             listing.save()
+            catagories = form.cleaned_data['catagories']
+            for catagory_id in catagories:
+                result = Catagory.objects.get(id=catagory_id)
+                if result:
+                    catagory = result
+                    listing.catagories.add(catagory)
         return render(request, "auctions/create.html", {
             "form": ListingForm()
         })
