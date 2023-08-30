@@ -31,17 +31,54 @@
     </div>
     <!-- category -->
 
-    <!-- various part -->
-    <!-- if signed in -->
-        <!-- if owner -->
-            <!-- if not close -->
-                <!-- close -->
-        <!-- else -->
-            <!-- if not close -->
-                <!-- add/remove to watchlist -->
-                <!-- bid -->
-            <!-- if close and winner -->
-                <!-- display winner -->
+    {% if watchlist_form %}
+        <form action="">
+            {% csrf_token %}
+            {{ watchlist_form }}
+            <button>
+                {% if is_watched %}
+                    Remove form Watchlist
+                {% else %}
+                    Add to Watchlist
+                {% endif %}
+            </button>
+            
+        </form>
+    {% endif %}
+
+    {% if close_form %}
+        <form action="{% url 'close' %}" method="post">
+            {% csrf_token %}
+            {{ close_form }}
+            <button>Close Auction</button>
+        </form>
+    {% endif %}
+    {% if bid_form %}
+        <form action="{% url 'bid' %}" method="post">
+            {% csrf_token %}
+            {{ bid_form }}
+            <button>bid</button>
+        </form>
+    {% endif %}
+    {% if not listing.active %}
+        <h5>This auction is closed</h5>
+    {% endif %}
+    {% if is_winner %}
+        <div>You won the auction!</div>
+    {% endif %}
+
+    {% if comment_form %}
+    <form action="{% url 'comment' %}" method="post">
+        {% csrf_token %}
+        {{ comment_form }}
+        <button>submit</button>
+    </form>
+    {% endif %}
+
+    {% for comment in listing.comments.all %}
+        <div>@{{ comment.author }}: {{ comment.content }}</div>
+    {% endfor %}
+
     <!-- if close -->
     <!-- comments -->
 
