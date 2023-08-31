@@ -1,0 +1,30 @@
+{% extends 'auction/layout.html' %}
+
+{% block title %}Watchlist{% endblock %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+    <ul>
+        {% for listing_set in watchlist %}
+            <a href="{% url 'listing' id=listing_set.listing.id %}">
+                <h2>
+                    {{ listing_set.listing.title }}
+                </h2>
+                {% if listing_set.listing.image %}
+                    <img src="{{ listing_set.listing.image.url }}" alt="{{ listing_set.listing.title }}">
+                {% endif %}
+                <div>
+                    {{ listing_set.listing.description }}
+                </div>
+                <div>
+                    current price: ${{ listing_set.highest_bid }}
+                </div>
+            </a>
+        {% empty %}
+            <div>No item on your watchlist</div>
+        {% endfor %}
+    </ul>
+{% endblock %}

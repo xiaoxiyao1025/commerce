@@ -32,7 +32,7 @@
     <!-- category -->
 
     {% if watchlist_form %}
-        <form action="">
+        <form action="{% url 'watchlist' %}" method="post">
             {% csrf_token %}
             {{ watchlist_form }}
             <button>

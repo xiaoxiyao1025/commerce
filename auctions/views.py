@@ -7,6 +7,7 @@ from django.urls import reverse
 from django import forms
 from .models import User, AuctionListing, Bid, Comment, Category
 from decimal import *
+from .helper import get_listing_set
 
 class ListingForm(forms.Form):
     category = Category.objects.exclude(name="Other").values('name', 'id')
@@ -290,6 +291,8 @@ def bid(request):
 @login_required
 def watchlist(request):
     if request.method == "GET":
+
+
         return HttpResponseRedirect(reverse("index"))
     # POST 
     form = CloseListingForm(request.POST)
@@ -299,10 +302,14 @@ def watchlist(request):
             # listing exist
 
             listing = AuctionListing.objects.get(id = listing_id)
-
-            # edit code here
+            if request.user.watchlist.contains(listing):
+                request.user.watchlist.remove(listing)
+            else:
+                request.user.watchlist.add(listing)
 
         return HttpResponseRedirect(reverse("listing", kwargs={"id": listing_id}))
     # error page here
     # form invalid
     return HttpResponseRedirect(reverse("index"))
+
+
