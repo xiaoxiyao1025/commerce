@@ -7,7 +7,7 @@ from django.urls import reverse
 from django import forms
 from .models import User, AuctionListing, Bid, Comment, Category
 from decimal import *
-from .helper import get_listing_set
+from .helper import get_listing_set, reverse_with_message
 
 class ListingForm(forms.Form):
     category = Category.objects.exclude(name="Other").values('name', 'id')
@@ -37,12 +37,13 @@ class WatchlistForm(forms.Form):
 
 @login_required
 def index(request):
-    
+    message = request.GET.get("message")
     # get the all user's listing
     listings = request.user.listings.all()
     new_listings = get_listing_set(listings)
     return render(request, "auctions/index.html", {
-        "listings": new_listings
+        "listings": new_listings,
+        "message": message
     })
 
 

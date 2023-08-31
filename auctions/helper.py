@@ -1,4 +1,5 @@
-
+from django.urls import reverse
+import urllib.parse
 
 def get_listing_set(listings):
     new_listings = []
@@ -16,3 +17,7 @@ def get_listing_set(listings):
             "highest_bid": highest_bid
         })
     return new_listings
+
+def reverse_with_message(namespace, message):
+    encoded_message = urllib.parse.quote(message)
+    return reverse(namespace) + "?message=" + encoded_message
