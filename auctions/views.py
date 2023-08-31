@@ -40,20 +40,7 @@ def index(request):
     
     # get the all user's listing
     listings = request.user.listings.all()
-    new_listings = []
-    # get the highest bid for each lisitng and bind them with the listing
-    for i in range(len(listings)):
-        listing = listings[i]
-        bid_num = listing.bids.count()
-        if bid_num == 0:
-            highest_bid = listing.starting_bid
-        else:
-            highest_bid = listing.bids.order_by("-price").first().price
-
-        new_listings.append({
-            "listing": listing,
-            "highest_bid": highest_bid
-        })
+    new_listings = get_listing_set(listings)
     return render(request, "auctions/index.html", {
         "listings": new_listings
     })
@@ -291,9 +278,11 @@ def bid(request):
 @login_required
 def watchlist(request):
     if request.method == "GET":
-
-
-        return HttpResponseRedirect(reverse("index"))
+        watchlist = request.user.watchlist.all()
+        new_watchlist = get_listing_set(watchlist)
+        return render(request, "auctions/watchlist.html", {
+            "watchlist": new_watchlist
+        })
     # POST 
     form = CloseListingForm(request.POST)
     if form.is_valid():
