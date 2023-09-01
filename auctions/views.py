@@ -102,6 +102,8 @@ def register(request):
 @login_required
 def create(request):
     if request.method == "GET":
+        categories = Category.objects.all().values("name")
+        print(categories)
         return render(request, "auctions/create.html", {
             "form": ListingForm()
         })
@@ -303,3 +305,14 @@ def watchlist(request):
     return HttpResponseRedirect(reverse("index"))
 
 
+def category(request, category_name):
+    if not Category.objects.filter(name=category_name).exists():
+        return HttpResponseRedirect(reverse_with_message("index", "The category does not exist"))
+    # category info
+    category = Category.objects.get(name=category_name)
+    listings = category.listings.all()
+    new_listings = get_listing_set(listings)
+    return render(request, "auctions/category.html", {
+        "category_name": category_name,
+        "listings": new_listings
+    })

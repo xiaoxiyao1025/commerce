@@ -8,9 +8,9 @@
     <ul>
         {% for listing_set in listings %}
             <a href="{% url 'listing' id=listing_set.listing.id %}">
-                <h2>
+                <h4>
                     {{ listing_set.listing.title }}
-                </h2>
+                </h4>
                 {% if listing_set.listing.image %}
                     <img src="{{ listing_set.listing.image.url }}" alt="{{ listing_set.listing.title }}">
                 {% endif %}
