@@ -103,7 +103,6 @@ def register(request):
 def create(request):
     if request.method == "GET":
         categories = Category.objects.all().values("name")
-        print(categories)
         return render(request, "auctions/create.html", {
             "form": ListingForm()
         })
@@ -257,22 +256,18 @@ def bid(request):
     form = BidForm(request.POST)
     if form.is_valid():
         listing_id = form.cleaned_data["listing_id"]
-        print("valid")
         if AuctionListing.objects.filter(id = listing_id).exists():
             # listing exist
-            print("exist")
             listing = AuctionListing.objects.get(id = listing_id)
             price = form.cleaned_data["price"]
 
             # check if listing is active and price is valid for the bid
             if listing.active and listing.is_valid_price(price):
-                print("active and valid price")
                 # add bid
                 bid = Bid(bid_maker=request.user, listing=listing, price=price)
                 bid.save()
 
         return HttpResponseRedirect(reverse("listing", kwargs={"id": listing_id}))
-    # print(form.errors)
     # error page here
     # form invalid
     return HttpResponseRedirect(reverse("index"))
