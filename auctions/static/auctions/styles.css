@@ -20,12 +20,14 @@ body > ul > li > a.nav-link:hover {
     background-color: #E0E0E0;
 }
 
+/* big heading and sign info eg. Auctions Signed in as xxx. */
 #header {
     
     padding-left: 1rem;
     padding-right: 1rem;
 }
 
+/* sign-in info besides heaader eg. Signed in as xxx. */
 #header > div {
     height:44px;
     line-height: 55px;
@@ -35,27 +37,112 @@ body > ul > li > a.nav-link:hover {
     vertical-align:middle;
 }
 
+/* big heaing eg. Auctions */
 #header > h1 {
     vertical-align: middle;
     display: inline;
 }
 
-#content > ul a {
+/* index listing link */
+#content a {
     color: black;
     text-decoration: none;
 }
 
-
-#content > ul > div {
+/* index listing header */
+#content a h4 {
+    padding-top: 5px;
     padding-left: 10px;
 }
 
-#content > ul > div:hover {
-    color: blue;
+/* index listing description */
+#content a div {
+    padding-left: 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+
+/* index listing description hover */
+#content a div:hover {
     background-color: #E0E0E0;
 }
 
-img {
+/* listing image */
+#content a img {
+    margin-left: 25px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     max-width: 300px;
     max-height: auto;
+    border-radius: 5px 5px;
 }
+
+#content > hr {
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+form#create {
+    padding-left: 1rem;
+}
+
+form#create label {
+    display: block;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+form#create label > span {
+    display: inline-block;
+    width: 180px;
+}
+
+form#create label span.required {
+    color: red;
+}
+
+form#create label > div {
+    display: flex;
+    align-items: first baseline;
+}
+
+form#create label > div > span {
+    display: inline-block;
+    width: 184px;
+}
+
+form#create input {
+    width: 250px;
+}
+
+form#create textarea {
+    width: 250px;
+    height: 180px;
+}
+
+form#create select {
+    width: 250px;
+    height: 134px;
+}
+
+form#create > div {
+    margin-bottom: 10px;
+}
+
+form > h2 {
+    margin-bottom: 10px;
+}
+
+/* form#create > div {
+    margin-bottom: 15px;
+    
+    font-weight: 500;
+}
+
+form#create > div > div {
+    margin-bottom: 5px;
+}
+
+form#create > div.title {
+} */

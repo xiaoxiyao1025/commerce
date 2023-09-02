@@ -3,9 +3,38 @@
 {% block title %}Create{% endblock %}
 
 {% block body %}
-    <form action="{% url 'create' %}" method="post" enctype="multipart/form-data">
+
+    <h2>Create Listing</h2>
+    <form action="{% url 'create' %}" method="post" enctype="multipart/form-data" id="create">
         {% csrf_token %}
-        {{ form }}
-        <button>submit</button>
+        <label for="id_title">
+            <span>Title: <span class="required">*</span></span>
+            {{ form.title }}
+        </label>
+        <label for="id_description">
+            <div>
+                <span>Description: <span class="required">*</span></span>
+                {{ form.description }}
+            </div>
+        </label>
+        <label for="id_image">
+            <span>Upload Image: </span>
+            {{ form.image }}
+        </label>
+        <label for="id_starting_bid">
+            <span>Starting bid: <span class="required">*</span></span>
+            {{ form.starting_bid }}
+        </label>
+        <label for="id_categories">
+            <div>
+                <span>Choose categories: <span class="required">*</span></span>
+
+                {{ form.categories }}
+            </div>
+        </label>
+        <div>    
+            Press Ctrl(windows)/Command(mac) when click the category to choose more than one.
+        </div>
+        <button type="submit">submit</button>
     </form>
 {% endblock %}

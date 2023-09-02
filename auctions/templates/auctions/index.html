@@ -5,25 +5,24 @@
     {% if message %}
         <div>{{ message }}</div>
     {% endif %}
-    <ul>
         {% for listing_set in listings %}
-            <div>
-                <a href="{% url 'listing' id=listing_set.listing.id %}">
-                    <h4>
-                        {{ listing_set.listing.title }}
-                    </h4>
-                    {% if listing_set.listing.image %}
-                        <img src="{{ listing_set.listing.image.url }}" alt="{{ listing_set.listing.title }}">
-                    {% endif %}
-                    <div>
-                        {{ listing_set.listing.description }}
-                    </div>
-                    <div>
-                        current price: ${{ listing_set.highest_bid }}
-                    </div>
-                </a>
-            </div>
+            <a href="{% url 'listing' id=listing_set.listing.id %}">
+                <div>
+                <h4>
+                    {{ listing_set.listing.title }}
+                </h4>
+                {% if listing_set.listing.image %}
+                    <img src="{{ listing_set.listing.image.url }}" alt="{{ listing_set.listing.title }}">
+                {% endif %}
+                <div>
+                    {{ listing_set.listing.description }}
+                </div>
+                <div>
+                    current price: ${{ listing_set.highest_bid }}
+                </div>
+                </div>
+            </a>
+
             <hr>
         {% endfor %}
-    </ul>
 {% endblock %}
