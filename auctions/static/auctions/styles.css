@@ -20,6 +20,11 @@ body > ul > li > a.nav-link:hover {
     background-color: #E0E0E0;
 }
 
+body > ul > li > a.nav-link:focus {
+    color:black;
+    background-color: #E0E0E0;
+}
+
 /* big heading and sign info eg. Auctions Signed in as xxx. */
 #header {
     
@@ -134,15 +139,15 @@ form > h2 {
     margin-bottom: 10px;
 }
 
-/* form#create > div {
-    margin-bottom: 15px;
-    
-    font-weight: 500;
+div#listing {
+    padding-left: 1rem;
 }
 
-form#create > div > div {
-    margin-bottom: 5px;
+div#listing > div {
+    margin-bottom: 10px;
 }
 
-form#create > div.title {
-} */
+a#user_page {
+    color:hsl(206,100%,40%);
+}
+

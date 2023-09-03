@@ -42,6 +42,7 @@ def index(request):
     listings = request.user.listings.all()
     new_listings = get_listing_set(listings)
     return render(request, "auctions/index.html", {
+        "title": "Active Listings",
         "listings": new_listings,
         "message": message
     })
@@ -132,9 +133,9 @@ def create(request):
             return render(request, "auctions/create.html", {
             "form": form
         })
-        return render(request, "auctions/create.html", {
-            "form": ListingForm()
-        })
+        return HttpResponseRedirect(reverse("listing", kwargs={
+            "id": listing.id
+        }))
     
 
 def listing(request, id):
@@ -278,8 +279,12 @@ def watchlist(request):
     if request.method == "GET":
         watchlist = request.user.watchlist.all()
         new_watchlist = get_listing_set(watchlist)
-        return render(request, "auctions/watchlist.html", {
-            "watchlist": new_watchlist
+        # return render(request, "auctions/watchlist.html", {
+        #     "watchlist": new_watchlist
+        # })
+        return render(request, "auctions/index.html", {
+            "title": "Watchlist",
+            "listings": new_watchlist
         })
     # POST 
     form = CloseListingForm(request.POST)
@@ -307,7 +312,22 @@ def category(request, category_name):
     category = Category.objects.get(name=category_name)
     listings = category.listings.all()
     new_listings = get_listing_set(listings)
-    return render(request, "auctions/category.html", {
-        "category_name": category_name,
+    # return render(request, "auctions/category.html", {
+    #     "category_name": category_name,
+    #     "listings": new_listings
+    # })
+    return render(request, "auctions/index.html", {
+        "title": category_name,
         "listings": new_listings
     })
+
+def user_page(request, id):
+    if User.objects.filter(id=id).exists():
+        user = User.objects.get(id=id)
+    listings = user.listings.all()
+    new_listings = get_listing_set(listings)
+    return render(request, "auctions/index.html", {
+        "title": user.username,
+        "listings": new_listings
+    })
+

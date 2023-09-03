@@ -10,11 +10,17 @@ class User(AbstractUser):
 
 class Category(models.Model):
     name = models.CharField(max_length=64)
+    
+    def __str__(self):
+        return self.name
 
 
 class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     content = models.CharField(max_length=140)
+
+    def __str__(self):
+        return self.content
 
 
 class AuctionListing(models.Model):
@@ -38,9 +44,16 @@ class AuctionListing(models.Model):
             lowest_price = highest_bid
         lowest_price = round(lowest_price, 2)
         return price >= lowest_price
+    
+    def __str__(self):
+        return self.title
+
 
 
 class Bid(models.Model):
     bid_maker = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bids")
     listing = models.ForeignKey(AuctionListing, on_delete=models.CASCADE, related_name="bids")
     price = models.DecimalField(decimal_places=2, max_digits=7)
+
+    def __str__(self):
+        return str(self.listing) + ": $" + str(self.price)

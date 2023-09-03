@@ -14,7 +14,8 @@ urlpatterns = [
     path("comment", views.comment, name="comment"),
     path("bid", views.bid, name="bid"),
     path("watchlist", views.watchlist, name="watchlist"),
-    path("category/<str:category_name>", views.category, name="category")
+    path("category/<str:category_name>", views.category, name="category"),
+    path("user_page/<str:id>", views.user_page, name="user_page")
 ]
 
 urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
